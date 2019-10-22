@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { composeWithDevTools } from ‘redux-devtools-extension’
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducers from './reducers';
 
-const store = createStore( reducers )
+const store = createStore( reducers, composeWithDevTools( ) )
 
 ReactDOM.render(
     <Provider store={store}>
