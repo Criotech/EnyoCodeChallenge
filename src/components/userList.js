@@ -23,7 +23,7 @@ class userList extends Component {
         }
         return (
             <div>
-                    <Table dataSource={data}>
+                    <Table rowKey={data => data.id} dataSource={data}>
                         <ColumnGroup title="Name">
                             <Column title="First Name" dataIndex="firstName" key="firstName" />
                             <Column title="Last Name" dataIndex="lastName" key="lastName" />
@@ -39,7 +39,7 @@ class userList extends Component {
                                 <span>
                                     <span style={{color: "#3AA5FF", cursor: "pointer"}} onClick={this.EditUserData.bind(this, record)}>Edit </span>
                                     <Divider type="vertical" />
-                                    <span onClick={this.deleteUser.bind(this, record.key)} style={{color: '#3AA5FF', cursor: "pointer"}}>Delete</span>
+                                    <span onClick={this.deleteUser.bind(this, record.id)} style={{color: '#3AA5FF', cursor: "pointer"}}>Delete</span>
                                 </span>
                             )}
                         />

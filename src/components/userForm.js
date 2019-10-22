@@ -1,104 +1,52 @@
 import React, { Component } from 'react'
 import UserList from './userList'
 import { Modal, Button, Input } from 'antd';
+import { connect } from 'react-redux';
+import { userInputForm, submitForm, deleteUser, editUser, toggleModal } from '../actions';
 
 class userForm extends Component {
-    state = {
-        loading: false,
-        visible: false,
-        firstName: '',
-        lastName: '',
-        age: '',
-        birthday: '',
-        hobby: '',
-        key: 0,
-        edit: false,
-        userData: []
-    };
 
     showModal = () => {
-        this.setState({
-            visible: true,
-        });
-    };
-
-    handleOk = () => {
-        this.setState({ loading: true });
-        setTimeout(() => {
-            this.setState({ loading: false, visible: false });
-        }, 3000);
+        this.props.toggleModal()
     };
 
     handleCancel = () => {
-        this.setState({ visible: false });
+        this.props.toggleModal()
     };
 
 
     handleChange(event) {
         const { name, value } = event.target
 
-        this.setState({
-            [name]: value
-        })
+        this.props.userInputForm({ prop: name, value })
     }
 
     
     deleteUser(data) {
-        const { userData } = this.state;
-
-        let deletedUser = userData.filter((user) => {
-            return user.key !== data
-        })
-
-        this.setState({ userData: deletedUser })
+        this.props.deleteUser(data)
     }
 
 
     onSubmit(event) {
         event.preventDefault()
-        if (this.state.edit){
-            this.deleteUser(this.state.key)
+        
+        if (this.props.edit===true){
+            this.deleteUser(this.props.id)
         }
-        this.setState((prevState) => {
-            return {
-                key: prevState.key + 1
-            }
-        })
-        const { key, firstName, lastName, age, birthday, hobby } = this.state;
+        const { id, firstName, lastName, age, birthday, hobby } = this.props;        
+        this.props.submitForm({ id, firstName, lastName, age, birthday, hobby })
 
-        let data = { key, firstName, lastName, age, birthday, hobby }
-        this.setState((prevState) => {
-            return {
-                userData: prevState.userData.concat(data),
-                firstName: '',
-                lastName: '',
-                age: '',
-                birthday: '',
-                hobby: '',
-                edit: false
-            }
-        })
-        this.handleCancel()
     }
 
     editUser(data) {
-        this.setState({
-            key: data.key,
-            firstName: data.firstName,
-            lastName: data.lastName,
-            age: data.age,
-            birthday: data.birthday,
-            hobby: data.hobby,
-            edit: true
-        })
-
+        this.props.editUser(data)
     }
 
     render() {
-        const { visible, firstName, lastName, age, birthday, hobby, edit } = this.state;
+        const { firstName, lastName, age, birthday, hobby, userData, edit, visible } = this.props;        
         return (
             <div>
-                <UserList showModal={this.showModal.bind(this)} editUser={this.editUser.bind(this)} deleteUser={this.deleteUser.bind(this)} entries={this.state.userData} />
+                <UserList showModal={this.showModal.bind(this)} editUser={this.editUser.bind(this)} deleteUser={this.deleteUser.bind(this)} entries={userData} />
 
                 <div>
                     <Button className="toggleForm" onClick={this.showModal}>
@@ -107,7 +55,6 @@ class userForm extends Component {
                     <Modal
                         visible={visible}
                         title="User Data Form"
-                        onOk={this.handleOk}
                         onCancel={this.handleCancel}
                         footer={[
                             <Button key="back" onClick={this.handleCancel}>
@@ -116,11 +63,11 @@ class userForm extends Component {
                         ]}
                     >
                         <form>
-                            <Input type="text" name="firstName" value={firstName} onChange={this.handleChange.bind(this)} placeholder="firt name" /> <br /> <br/>
+                            <Input type="text" name="firstName" value={firstName} onChange={this.handleChange.bind(this)} placeholder="first name" /> <br /> <br/>
                             <Input type="text" name="lastName" value={lastName} onChange={this.handleChange.bind(this)} placeholder="last name" /> <br /> <br/>
                             <Input type="number" name="age" value={age} onChange={this.handleChange.bind(this)} placeholder="age" /> <br /> <br/>
                             <Input type="date" name="birthday" value={birthday} onChange={this.handleChange.bind(this)} placeholder="birthday" /> <br /> <br/>
-                            <Input name="hobby" value={hobby} onChange={this.handleChange.bind(this)} type="text" placeholder="Hobby" /> <br /> <br/>
+                            <Input name="hobby" value={hobby}  onChange={this.handleChange.bind(this)} type="text" placeholder="Hobby" /> <br /> <br/>
                             <Input type="submit" className="inputButton" onClick={this.onSubmit.bind(this)} value={(edit===false)? 'Add': 'Edit'} />
 
                         </form>
@@ -132,4 +79,12 @@ class userForm extends Component {
     }
 }
 
-export default userForm
+
+const mapStateToProps = (state) => {
+    const { firstName, lastName, age, birthday, hobby, id, userData, edit, visible } = state.user;
+
+    return { firstName, lastName, age, birthday, hobby, id, userData, edit, visible}
+}
+
+export default connect(mapStateToProps, { userInputForm, submitForm, deleteUser, editUser, toggleModal }) (userForm)
+
