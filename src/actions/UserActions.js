@@ -1,4 +1,4 @@
-import { USER_FORM, USER_SUBMIT, DELETE_USER, EDIT_USER, TOGGLE_MODAL } from './types'
+import { USER_FORM, TOGGLE_MODAL, USER_CREATED, USER_UPDATED,  USER_DELETED } from './types'
 
 export const toggleModal = () => {
     return {
@@ -13,24 +13,24 @@ export const userInputForm = ({ prop, value }) => {
     }
 }
 
-export const submitForm = (data) => {
-    return {
-        type: USER_SUBMIT,
-        payload: data
+//firebase
+export const add_User = user => {
+     return {
+        type: USER_CREATED,
+        payload: user
+     }
+}
+
+export const update_User = user => {
+     return {
+        type: USER_UPDATED,
+        payload: user
     }
 }
 
-export const deleteUser = (data) => {
-    return {
-        type: DELETE_USER,
-        payload: data
-    }
-}
-
-export const editUser = (data) => {
-    console.log(data)
-    return {
-        type: EDIT_USER,
-        payload: data
-    }
+export const delete_User = userId => {
+     return {
+        type: USER_DELETED,
+        payload: userId
+     }
 }

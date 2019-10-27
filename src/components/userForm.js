@@ -2,11 +2,12 @@ import React from 'react';
 import UserList from './userList';
 import { Modal, Button, Input } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import { userInputForm, submitForm, deleteUser, editUser, toggleModal } from '../actions';
+import { userInputForm, toggleModal, add_User, delete_User } from '../actions';
 
 function UserForm() {
     const dispatch = useDispatch()
     const { firstName, lastName, age, birthday, hobby, id, userData, edit, visible } = useSelector(state => state.user)
+    console.log(userData)
     
     const showModal = data => {
         dispatch(toggleModal() )       
@@ -23,22 +24,19 @@ function UserForm() {
     }
     
     const DeleteUser = data => {
-        dispatch(deleteUser(data) )       
+        dispatch(delete_User(data))       
     }
 
 
     const onSubmit = event => {
         event.preventDefault()
         
-        if (edit===true){
-            DeleteUser(id)
-        }
-
-        dispatch(submitForm({ id, firstName, lastName, age, birthday, hobby }))                
+        dispatch(add_User({ id, firstName, lastName, age, birthday, hobby }))                
     }
 
     const EditUser = data => {
-        dispatch(editUser(data) )                
+        console.log('pending')
+        // dispatch(editUser(data) )                
     }
 
         return (

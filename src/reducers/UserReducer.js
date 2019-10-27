@@ -1,4 +1,4 @@
-import { USER_FORM, USER_SUBMIT, DELETE_USER, EDIT_USER, TOGGLE_MODAL } from '../actions/types';
+import { USER_FORM, TOGGLE_MODAL, USER_UPDATED, USER_DELETED } from '../actions/types';
 
 const INITIAL_STATE = {
     visible: false,
@@ -18,12 +18,8 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, visible: !state.visible }
         case USER_FORM:
             return { ...state, [action.payload.prop]: action.payload.value }
-        case USER_SUBMIT:
-            return { ...state, ...INITIAL_STATE, id: state.id+1, userData: [ ...state.userData, action.payload ]  }
-        case DELETE_USER: 
-            return { ...state, userData: [ ...state.userData.filter((user) => {return user.id !== action.payload}) ] }
-        case EDIT_USER:
-            return { ...state, edit: true, ...action.payload }
+        case USER_UPDATED:
+            return { ...state, ...INITIAL_STATE, id: state.id+1, userData: [ ...state.userData, action.payload ] }
         default:
             return state;
     }
