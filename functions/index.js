@@ -1,7 +1,7 @@
 const functions = require('firebase-functions');
 var admin = require('firebase-admin');
 var app = admin.initializeApp();
-const uuidv5 = require('uuid/v5')
+const uuid = require('uuidv4').default;
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -10,10 +10,17 @@ const uuidv5 = require('uuid/v5')
 //  response.send("Hello from Firebase!");
 // });
 
-exports.onNewUser = functions.database.ref('users').onCreate((event)=>{
-    const data = event.data.val();
-    const newData = { id: uuidv5(), uid: uuidv5() };
+exports.onNewUser = functions.database.ref('users').onCreate((snap,context)=>{
+    const data = snap.val();
+    const newData = { ...data, id: uuid(), uid: "somethingNew" };
+    console.log(newData)
 
-    return event.data.ref('users').set(newData)
+    return functions.database.ref('users').child('copiedData').set(newData)
 })
 
+exports.onNewUser = functions.database.ref('/users/{id}').onCreate((snapshot, context) => {
+    const data = snapshot.val() 
+    newData = { ...data, id: uuid(), uid: uuid() }
+    console.log(newData)
+    return snapshot.ref.update(newData)
+})
