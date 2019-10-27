@@ -34,14 +34,9 @@ function UserForm() {
         dispatch(add_User({ id, firstName, lastName, age, birthday, hobby }))                
     }
 
-    const EditUser = data => {
-        console.log('pending')
-        // dispatch(editUser(data) )                
-    }
-
         return (
             <div>
-                 <UserList showModal={showModal} editUser={EditUser} deleteUser={DeleteUser} entries={userData} />
+                 <UserList showModal={showModal} deleteUser={DeleteUser} entries={userData} />
 
                 <div>
                     <Button className="toggleForm" onClick={showModal}>

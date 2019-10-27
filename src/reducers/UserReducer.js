@@ -20,6 +20,8 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, [action.payload.prop]: action.payload.value }
         case USER_UPDATED:
             return { ...state, ...INITIAL_STATE, id: state.id+1, userData: [ ...state.userData, action.payload ] }
+        case USER_DELETED:
+            return { ...state, userData: [ ...state.userData.filter((user) => {return user.id !== action.payload}) ] }
         default:
             return state;
     }

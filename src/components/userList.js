@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Divider } from 'antd';
+import { Table } from 'antd';
 
 const { Column, ColumnGroup } = Table;
 
@@ -9,11 +9,6 @@ function UserList(props) {
         data = props.entries
     } else {
         console.log('no entries')
-    }
-
-    const EditUserData = data => {
-        props.showModal();
-        props.editUser(data)
     }
 
     const deleteUser = data => {
@@ -36,8 +31,6 @@ function UserList(props) {
                     key="action"
                     render={(text, record) => (
                         <span>
-                            <span style={{ color: "#3AA5FF", cursor: "pointer" }} onClick={()=>EditUserData(record)}>Edit </span>
-                            <Divider type="vertical" />
                             <span onClick={()=>deleteUser(record.id)} style={{ color: '#3AA5FF', cursor: "pointer" }}>Delete</span>
                         </span>
                     )}

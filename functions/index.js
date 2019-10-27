@@ -12,7 +12,7 @@ const uuidv5 = require('uuid/v5')
 
 exports.onNewUser = functions.database.ref('users').onCreate((event)=>{
     const data = event.data.val();
-    const newData = { ...data, id: uuidv5()};
+    const newData = { id: uuidv5(), uid: uuidv5() };
 
     return event.data.ref('users').set(newData)
 })
