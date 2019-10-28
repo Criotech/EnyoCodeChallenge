@@ -3,6 +3,7 @@ import { USER_CREATED, USER_UPDATED, USER_DELETED } from '../actions/types'
 import { update_User } from '../actions';
 import { put, take, call, fork } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
+import axios from 'axios'
 
 const config = {
     apiKey: "AIzaSyDQx1N-8hKmCOBpU9R6VO6z5OKTIE6FotM",
@@ -15,22 +16,16 @@ const config = {
     measurementId: "G-6WQJN4F70K"
 };
 
+
 const app = firebase.initializeApp(config);
 const database = firebase.database();
 
 function addUser(user) {
-    const newUserRef = database.ref('users').push();
-    return newUserRef.set(user);
+    axios.post('https://us-central1-usermanager-eb1d3.cloudfunctions.net/addUser', {user})
 }
 
 function deleteUser(userId) {
-    firebase.database().ref("users").orderByChild('id').equalTo(userId)
-        .once('value').then(function (snapshot) {
-            snapshot.forEach(function (childSnapshot) {
-                //remove each child
-                firebase.database().ref("users").child(childSnapshot.key).remove();
-            });
-        });
+    axios.delete(`https://us-central1-usermanager-eb1d3.cloudfunctions.net/deleteUsers?id=${userId}`)
 }
 
 function createEventChannel() {

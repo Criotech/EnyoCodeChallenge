@@ -74,7 +74,7 @@ exports.getUsers = functions.https.onRequest((req, res) => {
     })
 })
 
-exports.deleteUser = functions.https.onRequest((req, res) => {
+exports.deleteUsers = functions.https.onRequest((req, res) => {
     return cors(req, res, () => {
         if (req.method !== 'DELETE') {
             return res.status(401).json({

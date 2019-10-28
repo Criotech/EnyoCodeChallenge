@@ -6,7 +6,7 @@ import { userInputForm, toggleModal, add_User, delete_User } from '../actions';
 
 function UserForm() {
     const dispatch = useDispatch()
-    const { firstName, lastName, age, birthday, hobby, id, userData, edit, visible } = useSelector(state => state.user)
+    const { firstName, lastName, age, birthday, hobby, userData, edit, visible } = useSelector(state => state.user)
     console.log(userData)
     
     const showModal = data => {
@@ -31,7 +31,7 @@ function UserForm() {
     const onSubmit = event => {
         event.preventDefault()
         
-        dispatch(add_User({ id, firstName, lastName, age, birthday, hobby }))                
+        dispatch(add_User({ firstName, lastName, age, birthday, hobby }))                
     }
 
         return (

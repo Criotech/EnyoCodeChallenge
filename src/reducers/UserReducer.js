@@ -7,7 +7,7 @@ const INITIAL_STATE = {
     age: '',
     birthday: '',
     hobby: '',
-    id: 0,
+    id: "",
     userData: [],
     edit: false
 };
@@ -19,7 +19,7 @@ export default (state = INITIAL_STATE, action) => {
         case USER_FORM:
             return { ...state, [action.payload.prop]: action.payload.value }
         case USER_UPDATED:
-            return { ...state, ...INITIAL_STATE, id: state.id+1, userData: [ ...state.userData, action.payload ] }
+            return { ...state, ...INITIAL_STATE, userData: [ ...state.userData, action.payload ] }
         case USER_DELETED:
             return { ...state, userData: [ ...state.userData.filter((user) => {return user.id !== action.payload}) ] }
         default:
