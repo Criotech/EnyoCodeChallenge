@@ -1,5 +1,5 @@
 import * as firebase from 'firebase';
-import { USER_CREATED, USER_UPDATED, UPDATE_USER_DATA, USER_DELETED } from '../actions/types'
+import { USER_CREATED, USER_UPDATED, USER_DELETED } from '../actions/types'
 import { update_User } from '../actions';
 import { put, take, call, fork } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
