@@ -16,16 +16,28 @@ const config = {
     measurementId: "G-6WQJN4F70K"
 };
 
-
 const app = firebase.initializeApp(config);
 const database = firebase.database();
 
 function addUser(user) {
-    axios.post('https://us-central1-usermanager-eb1d3.cloudfunctions.net/addUser', {user})
+    console.log(user)
+    axios.post('https://us-central1-usermanager-eb1d3.cloudfunctions.net/app/addUsers', user)
+    .then(response => { 
+        console.log(response)
+    })
+    .catch(error => {
+        console.log(error.response)
+    });
 }
 
 function deleteUser(userId) {
-    axios.delete(`https://us-central1-usermanager-eb1d3.cloudfunctions.net/deleteUsers?id=${userId}`)
+    axios.delete(`https://us-central1-usermanager-eb1d3.cloudfunctions.net/app/deleteUsers/${userId}`)
+      .then(response => { 
+        console.log(response)
+    })
+    .catch(error => {
+        console.log(error.response)
+    });
 }
 
 function createEventChannel() {
