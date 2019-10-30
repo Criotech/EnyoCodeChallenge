@@ -18,6 +18,7 @@ function UserList(props) {
     return (
         <div>
              <Table rowKey={data => data.id} dataSource={data}>
+                <Column title="ID" dataIndex="id" key="id" />                 
                 <ColumnGroup title="Name">
                     <Column title="First Name" dataIndex="firstName" key="firstName" />
                     <Column title="Last Name" dataIndex="lastName" key="lastName" />
